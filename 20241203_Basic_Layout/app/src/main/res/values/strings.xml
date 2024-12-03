@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Basic Layout</string>
+    <string name="cost_of_service">Cost of Service</string>
+    <string name="how_was_the_service">How was the service?</string>
+    <string name="twenty_percent">20%</string>
+    <string name="ten_percent">10%</string>
+    <string name="five_percent">5%</string>
+    <string name="round_tip">Round up Tip</string>
+    <string name="calculate_tip">Tip Amount</string>
+    <string name="tip_amount">Tip Amount</string>
+</resources>
