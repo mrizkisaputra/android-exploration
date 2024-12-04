@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/text_converter_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_choose_unit_converter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/unit_converter_text"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_converter_app" />
+
+    <Spinner
+        android:id="@+id/spinner_converter_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/text_choose_unit_converter"
+        app:layout_constraintStart_toStartOf="@+id/text_choose_unit_converter"
+        app:layout_constraintTop_toBottomOf="@+id/text_choose_unit_converter" />
+
+    <EditText
+        android:id="@+id/edt_unit_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:hint="@string/unit_converter_hint"
+        android:inputType="numberSigned"
+        app:layout_constraintStart_toStartOf="@+id/spinner_converter_category"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_converter_category" />
+
+    <Spinner
+        android:id="@+id/spinner_unit_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_unit_input"
+        app:layout_constraintStart_toEndOf="@+id/edt_unit_input"
+        app:layout_constraintTop_toTopOf="@+id/edt_unit_input" />
+
+    <Spinner
+        android:id="@+id/spinner_unit_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_unit_from"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spinner_unit_from"
+        app:layout_constraintTop_toTopOf="@+id/spinner_unit_from" />
+
+    <Button
+        android:id="@+id/btn_convert"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/unit_converter_button_convert"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_unit_input" />
+
+    <TextView
+        android:id="@+id/text_result"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/btn_convert"
+        app:layout_constraintStart_toStartOf="@+id/btn_convert"
+        app:layout_constraintTop_toBottomOf="@+id/btn_convert"
+        tools:text="3 Km" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
