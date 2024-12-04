@@ -3,4 +3,5 @@
     <string name="unit_converter_text">Choose unit converter</string>
     <string name="unit_converter_button_convert">Convert %1$s</string>
     <string name="unit_converter_hint">Enter the %1$s</string>
+    <string name="unit_converter_result_text">%1$s %2$s</string>
 </resources>

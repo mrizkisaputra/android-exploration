@@ -47,7 +47,8 @@ class MainActivity : AppCompatActivity() {
             val to = spinnerUnitTo.selectedItem.toString()
 
             if (input != null) {
-                convertUnit(converterCategory, input, from, to)
+                val result = convertUnit(converterCategory, input, from, to)
+                textViewResult.text = resources.getString(R.string.unit_converter_result_text, result.toString(), to)
             } else {
                 Toast.makeText(this, "Field tidak boleh kosong!", Toast.LENGTH_SHORT).show()
             }
@@ -63,15 +64,51 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun convertLength(value: Double, from: String, to: String): Double {
-        
+        val inMeters = when (from) {
+            "mm" -> value / 1000
+            "cm" -> value / 100
+            "m" -> value
+            "km" -> value * 1000
+            "inch" -> value * 0.0254
+            else -> value
+        }
+        return when (to) {
+            "mm" -> inMeters * 1000
+            "cm" -> inMeters * 100
+            "m" -> inMeters
+            "km" -> inMeters / 1000
+            "Inch" -> inMeters / 0.0254
+            else -> inMeters
+        }
     }
 
     private fun convertWeight(value: Double, from: String, to: String): Double {
-
+        val inKilograms = when (from) {
+            "mg" -> value / 1_000_000
+            "g" -> value / 1000
+            "kg" -> value
+            "Once" -> value / 35.274
+            else -> value
+        }
+        return when (to) {
+            "mg" -> inKilograms * 1_000_000
+            "g" -> inKilograms * 1000
+            "kg" -> inKilograms
+            "Once" -> inKilograms * 35.274
+            else -> inKilograms
+        }
     }
 
     private fun convertTemperature(value: Double, from: String, to: String): Double {
-
+        return when (from to to) {
+            "celsius" to "fahrenheit" -> value * 9 / 5 + 32
+            "celsius" to "kelvin" -> value + 273.15
+            "fahrenheit" to "celsius" -> (value - 32) * 5 / 9
+            "fahrenheit" to "kelvin" -> (value - 32) * 5 / 9 + 273.15
+            "kelvin" to "celsius" -> value - 273.15
+            "kelvin" to "fahrenheit" -> (value - 273.15) * 9 / 5 + 32
+            else -> value
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
