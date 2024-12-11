@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/home_dest">
+
+    <fragment
+        android:id="@+id/home_dest"
+        android:name="com.mrizkisaputra.fragment.HomeFragment"
+        android:label="HomeFragment"
+        android:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_dest_to_profile_dest"
+            app:destination="@id/profile_dest"
+            app:enterAnim="@anim/slide_in_right" />
+        <action
+            android:id="@+id/action_home_dest_to_setting_dest"
+            app:destination="@id/setting_dest"
+            app:enterAnim="@anim/slide_in_right" />
+        <action
+            android:id="@+id/action_home_dest_to_category_dest"
+            app:destination="@id/category_dest" />
+    </fragment>
+    <fragment
+        android:id="@+id/setting_dest"
+        android:name="com.mrizkisaputra.fragment.SettingFragment"
+        android:label="SettingFragment"
+        tools:layout="@layout/fragment_setting" />
+    <activity
+        android:id="@+id/profile_dest"
+        android:name="com.mrizkisaputra.ProfileActivity"
+        android:label="activity_profile"
+        tools:layout="@layout/activity_profile" />
+    <fragment
+        android:id="@+id/category_dest"
+        android:name="com.mrizkisaputra.fragment.CategoryFragment"
+        android:label="CategoryFragment"
+        tools:layout="@layout/fragment_category">
+        <argument
+            android:name="data"
+            app:argType="string"
+            android:defaultValue="default_value" />
+    </fragment>
+
+</navigation>
