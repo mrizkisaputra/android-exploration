@@ -1,15 +1,19 @@
 package com.mrizkisaputra.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.mrizkisaputra.R
 import com.mrizkisaputra.data.response.CustomerReviewItem
 import com.mrizkisaputra.data.response.Restaurant
@@ -24,6 +28,7 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val mainViewmodel: MainViewmodel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,63 +41,33 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        mainViewmodel.isLoading.observe(this) { isLoading ->
+            showLoading(isLoading)
+        }
 
+        mainViewmodel.restaurant.observe(this) { restaurant ->
+            setDataRestaurant(restaurant)
+        }
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerReview.layoutManager = LinearLayoutManager(this)
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.recyclerReview.addItemDecoration(itemDecoration)
-
-        findRestaurant()
-        binding.buttonSend.setOnClickListener {
-            createReview(binding.edittextReview.text.toString().trim())
+        mainViewmodel.customerReviews.observe(this) { customerReviews ->
+            setReviewCustomers(customerReviews)
         }
-    }
 
-    private fun createReview(review: String) {
-        val reviewRequest = ReviewRequest(RESTAURANT_ID, "mrizkisaputra", review)
-        ApiConfig.getApiRestaurantService().createReview(reviewRequest)
-            .enqueue(object : Callback<ReviewResponse> {
-                override fun onResponse(call: Call<ReviewResponse>, response: Response<ReviewResponse>) {
-                    val responseBody: ReviewResponse? = response.body()
-                    if (response.isSuccessful && responseBody != null) {
-                        setReviewCustomers(responseBody.customerReviews)
-                    } else {
-                        Log.e(TAG, "onFailure: ${response.message()}")
-                    }
-                }
-
-                override fun onFailure(p0: Call<ReviewResponse>, error: Throwable) {
-                    Log.e(TAG, "onFailure: ${error.message}")
-                }
-
-            })
-    }
-
-    private fun findRestaurant() {
-        showLoading(true)
-        val client = ApiConfig.getApiRestaurantService().getRestaurant(RESTAURANT_ID)
-        client.enqueue(object : Callback<RestaurantResponse> {
-            override fun onResponse(
-                call: Call<RestaurantResponse>,
-                response: Response<RestaurantResponse>
-            ) {
-                showLoading(false)
-                if (response.isSuccessful) {
-                    val body: RestaurantResponse = response.body() as RestaurantResponse
-                    setDataRestaurant(body.restaurant)
-                    setReviewCustomers(body.restaurant.customerReviews)
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
+        mainViewmodel.snackbarText.observe(this) {
+            it.getContentIfNotHandled()?.let { text ->
+                Snackbar.make(window.decorView.rootView, text, Snackbar.LENGTH_SHORT).show()
             }
+        }
 
-            override fun onFailure(call: Call<RestaurantResponse>, error: Throwable) {
-                showLoading(false)
-                Log.e(TAG, "onFailure: ${error.message}")
-            }
-
-        })
+        binding.buttonSend.setOnClickListener { view ->
+            mainViewmodel.createReview(binding.edittextReview.text.toString())
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 
     private fun setReviewCustomers(customerReviews: List<CustomerReviewItem>) {
@@ -117,9 +92,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    companion object {
-        private val TAG = MainActivity::class.java.simpleName
-        private const val RESTAURANT_ID = "uewq1zg2zlskfw1e867"
-    }
 }
